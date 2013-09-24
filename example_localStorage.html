@@ -1,0 +1,305 @@
+<html>
+<head>
+<title> Example for Local Storage</title>
+<meta name="description" content="Local Storage for Browser">
+<meta name="keywords" content="JS, JQUERY, Jquery Plugin, LocalStorage, offline cache,browser, storage">
+<meta name="author" content="developerck" >
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="ls.min.js"></script>
+
+<style>
+fieldset{
+border: 1px #ccc solid;
+margin: 10px;
+}
+
+legend{
+font-weight: bold;
+font-size: 16px;
+color: #333;
+}
+</style>
+</head>
+<body>
+<h2> Local Storage , Supported in HTML5, to store data locally in browser by key value pair, up to 5 mb</h2>
+<h3>here are little example that can show you , how to use this library</h3>
+<h3>About Library:</h3>
+<p>
+* you will need jquery for this
+<br>
+You can use this library to store data in local storage of browser, if it is supported,
+It extend the local storage function of browser , and provide a way to you to interact with storage based on your need,
+it can be used as<b> BROWSER CACHE FOR YOUR SERVER SIDE API DATA</b>, that you hit frequently.
+<br>
+This API can store data for a period of time, that is expiry time, and can delete it after that time, 
+a function does this automatically. from that you can check if you need to hit api , or not.
+You can append data to an existing storage.
+ 
+ <br><hr>
+ <b>How To test what is going on.</b>
+ <br>
+ Steps:-
+ <br>
+*  open this page in chrome. 
+	<br>
+*  open developer console
+<br>
+*  Select Resource Tab
+<br>
+* expand local storage from left
+<br>
+* click on  page name, it will storage in right side.	
+ 
+</p>
+ <b>List</b>
+<br>
+<hr>
+<ul>
+<li><a href="#isStorageSupport"> isStorageSupport</a>: check if browser support local storage</li>
+	<li><a href="#storeObj">storeObj</a>: Storage Object</li>
+	<li><a href="#handleStorage"> handleStorage</a>: automatically handle all things after setup</li>
+	<li><a href="#setExpireTime">setExpireTime</a>: To Set Expire Time</li>	
+	<li><a href="#getExpireTime"> getExpireTime</a>:  To Set Expire Time</li>
+	<li><a href="#setStorage"> setStorage</a>: Store data in Local Storage</li>
+		<li><a href="#getStorage"> getStorage</a>: Get Data From Local Storage</li>
+		<li><a href="#isKeyExist"> isKeyExist</a>: check if key exist in local storage</li>
+	<li><a href="#getKeyTimeStamp"> getKeyTimeStamp</a>: Get Key Stamp Of Item , when it was saved</li>
+	<li><a href="#isExpired"> isExpired</a>: check with expiry time</li>
+
+		<li><a href="#addTimeStampInJson"> addTimeStampInJson</a>: if you want to explicitly add time stamp in json</li>
+	<li><a href="#addItemValueByKey"> addItemValueByKey</a>: append data by key value , already stored in local Storage</li>
+		<li><a href="#getItemValueByKey">getItemValueByKey</a>: Retrieve item value by key</li>
+	
+	<li><a href="#clearStorageByKey"> clearStorageByKey </a>: Clear Storage By Key</li>
+	<li><a href="#clearStorage"> clearStorage</a>: Clear All</li>
+	<li><a href="#storageSize"> storageSize</a>: get size of storage</li>
+	<li><a href="#logDetail"> logDetail</a>: Log everything on console</li>
+	<li><a href="#setDebeug"> setDebug</a>: if true Log everything on console, by default false;</li>
+
+</ul>
+<div class="data">
+<p> let say our data in json is data = {"a":1,"b":{"b1":"1","b2":2},"c":3} and we want to operate it with our function
+let say storage key is "EXAMPLE"</p>
+<p> Let's have a storage obj 
+<br>
+for debug set <pre>ls.setDebug(true); // it will log in console.</pre>
+<br> By default expiry time is 1800 second;
+<br> Data Should be In JSON Format;
+</p>
+<p><b> To RUN Example , simply open debugger console panel in window  and copy paste that code , and run it.</b></p>
+<fieldset id="isStorageSupport">
+<legend> isStorageSupport</legend>
+<pre>
+if(ls.isStorageSupport()){
+alert(true);
+}else{
+alert(false);
+}
+
+</pre>
+</fieldset>
+
+<fieldset id="storeObj">
+<legend> storeObj</legend>
+<pre>
+
+console.log(ls.storeObj);
+
+</pre>
+will return storage object.
+</fieldset>
+
+
+
+<fieldset id="handleStorage">
+<legend> handleStorage</legend>
+this function is most desired function to handle local storage.
+<pre>
+ls.setDebug(true);
+var key = "EXAMPLE";
+var data = {"a":1,"b":{"b1":"1","b2":2},"c":3};
+var addTimeStamp = true;
+var option = '';//{doStore:  true, itemValuePair:false, other:false};
+						// itemValuePair  is another object in json format to store with that key. 
+ls.handleStorage(key, data, addTimeStamp, option);
+
+Note:- value passed in other will not be stored in local storage.
+</pre>
+will save the data in local storage.
+</fieldset>
+
+<fieldset id="setExpireTime">
+<legend> setExpireTime</legend>
+this function is used to set expiry time globally
+<pre>
+ls.setExpireTime(1200); // in seconds, by default 1800 seconds
+
+
+
+</pre>
+
+</fieldset>
+<fieldset id="getExpireTime">
+<legend> getExpireTime</legend>
+this function is used to get expiry time 
+<pre>
+
+console.log(ls.getExpireTime()); // in seconds, by default 1800 seconds
+
+
+
+</pre>
+
+</fieldset>
+
+
+<fieldset id="setStorage">
+<legend> setStorage</legend>
+this function is used to set storage, if you do not want to use handleStorage() function. 
+<pre>
+ls.setDebug(true);
+var key = "EXAMPLE";
+var data = {"a":1,"b":{"b1":"1","b2":2},"c":3};
+var addTimeStamp = true;
+var itemValuePair= false;			// itemValuePair  is another object in json format to store with that key. 
+
+ls.setStorage(key, data, addTimeStamp,itemValuePair);
+
+
+</pre>
+
+</fieldset>
+<fieldset id="getStorage">
+<legend> getStorage</legend>
+this function is used to get stored data by key 
+<pre>
+ls.setDebug(true);
+var key = "EXAMPLE";
+
+console.log(ls.getStorage(key));
+
+
+</pre>
+
+</fieldset>
+
+
+<fieldset id="isKeyExist">
+<legend> isKeyExist</legend>
+this function is used to check if stored key exist in local storage 
+<pre>
+ls.setDebug(true);
+
+var key = "EXAMPLE";
+console.log(ls.isKeyExist(key));
+
+
+</pre>
+
+</fieldset>
+<fieldset id="getKeyTimeStamp">
+<legend> getKeyTimeStamp</legend>
+this function is used to get time stamp value at which data was saved
+<pre>
+ls.setDebug(true);
+var key = "EXAMPLE";
+
+console.log(ls.getKeyTimeStamp(key));
+
+
+</pre>
+
+</fieldset>
+<fieldset id="isExpired">
+<legend> isExpired</legend>
+this function is used to check if key data is expired with respect to expiry time
+<pre>
+ls.setDebug(true);
+var key = "EXAMPLE";
+var eT = 1200; //it is optional , if blank then check global expiry time
+var clearKey =false; // by default true, if expired then clear the data from storage.
+console.log(ls.isExpired(key, eT, clearKey));
+
+
+</pre>
+
+</fieldset>
+<fieldset id="addTimeStampInJson">
+<legend> addTimeStampInJson</legend>
+this function is used to manually add timeStamp in json data
+<pre>
+ls.setDebug(true);
+var data = '{"a":1}';
+console.log(ls.addTimeStampInJson(data));
+</pre>
+</fieldset>
+<fieldset id="addItemValueByKey">
+<legend> addItemValueByKey</legend>
+this function is used to manually add item value pair in stored data
+<pre>
+ls.setDebug(true);
+var storeKey = 'EXAMPLE';
+var item ="b";
+var value = 2;
+console.log(ls.addItemValueByKey(storeKey,item, value));
+</pre>
+</fieldset>
+<fieldset id="getItemValueByKey">
+<legend> getItemValueByKey</legend>
+this function is used to get item value  data
+<pre>
+ls.setDebug(true);
+var storeKey = 'EXAMPLE';
+var item ="b";
+
+console.log(ls.getItemValueByKey(storeKey,item) );
+</pre>
+</fieldset>
+
+
+<fieldset id="clearStorageByKey">
+<legend> clearStorageByKey</legend>
+this function is used to clear data from local storage through key
+<pre>
+ls.setDebug(true);
+var storeKey = 'EXAMPLE';
+
+
+console.log(ls.clearStorageByKey(storeKey) );
+</pre>
+</fieldset>
+<fieldset id="clearStorage">
+<legend> clearStorage</legend>
+this function is used to clear all storage
+<pre>
+console.log(ls.clearStorage() );
+</pre>
+</fieldset>
+<fieldset id="storageSize">
+<legend> storageSize</legend>
+this function is used to calculate storage size , but it is slow , not recommended to use
+<pre>
+console.log(ls.storageSize() );
+</pre>
+</fieldset>
+<fieldset id="logDetail">
+<legend> logDetail</legend>
+this function is used to log Detail on console if debug is true, but by default debug is false;
+<pre>
+console.log(ls.logDetail("any data") );
+</pre>
+</fieldset>
+<fieldset id="setDebug">
+<legend> setDebug</legend>
+this function is used to set debug true or false, that will handle logDetail function,
+<pre>
+console.log(ls.setDebug(true) );
+</pre>
+</fieldset>
+</div>
+<hr>
+
+</body>
+</html>
+
+
